@@ -19,8 +19,7 @@ async function bootstrap() {
 
     // * Setup Swagger
     const config = new DocumentBuilder()
-        .setTitle('Insight AI')
-        .setDescription('Hossein ES ❤️')
+        .setTitle('Ticket System')
         .addBearerAuth()
         .addServer(`http://${appConfigInstance.host}:${appConfigInstance.port}`)
         .addServer(`http://localhost:${appConfigInstance.port}`)

@@ -1,22 +1,20 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { TicketEntity } from 'common/database/postgres/entities/ticket/ticket.entity';
 import { TicketRepository } from 'common/database/postgres/entities/ticket/ticket.repository';
-import { UserEntity } from 'common/database/postgres/entities/user/user.entity';
+import { CreateTokenDto } from 'common/dtos/create-token.dto';
+import { ActiveUserDataInterface } from 'common/interface/active-user-data.interface';
 
 @Injectable()
 export class TicketService {
-    constructor(
-        @InjectRepository(TicketEntity)
-        private readonly ticketRepository: TicketRepository,
-    ) {}
+    constructor(private readonly _ticketRepository: TicketRepository) {}
 
-    createTicket(user: UserEntity, title: string) {
-        const ticket = this.ticketRepository.create({ user, title });
-        return this.ticketRepository.save(ticket);
+    async createTicket(createTokenDto: CreateTokenDto, user: ActiveUserDataInterface) {
+        return this._ticketRepository.save({
+            title: createTokenDto.title,
+            userId: user.sub,
+        });
     }
 
-    getOpenTickets() {
-        return this.ticketRepository.find({ where: { status: 'open' } });
-    }
+    // getOpenTickets() {
+    //     return this.ticketRepository.find({ where: { status: 'open' } });
+    // }
 }
