@@ -20,10 +20,43 @@ services:
         image: redis:7.4.1
         container_name: redis
         restart: always
+        # environment:
+        #     REDIS_PASSWORD: ${REDIS_PASSWORD}
         ports:
             - '${REDIS_PORT}:6379'
         volumes:
             - redis-data:/data
+        networks:
+            - app-network
+
+    ticket-system:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: ticket-system
+        restart: always
+        ports:
+            - '${PORT}:3000'
+        environment:
+            HOST: 0.0.0.0
+            PORT: ${PORT}
+            POSTGRES_HOST: postgres
+            POSTGRES_PORT: 5432
+            POSTGRES_DB: ${POSTGRES_DB}
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+            REDIS_HOST: redis
+            REDIS_PORT: 6379
+            REDIS_PASSWORD: ${REDIS_PASSWORD}
+            JWT_SECRET: ${JWT_SECRET}
+            JWT_TOKEN_AUDIENCE: ${JWT_TOKEN_AUDIENCE}
+            JWT_TOKEN_ISSUER: ${JWT_TOKEN_ISSUER}
+            JWT_ACCESS_TOKEN_TTL: ${JWT_ACCESS_TOKEN_TTL}
+            JWT_REFRESH_TOKEN_TTL: ${JWT_REFRESH_TOKEN_TTL}
+            PEPPER: ${PEPPER}
+        depends_on:
+            - postgres
+            - redis
         networks:
             - app-network
 

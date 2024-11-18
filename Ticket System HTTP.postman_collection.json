@@ -1,0 +1,223 @@
+{
+	"info": {
+		"_postman_id": "5a6e8881-564a-46c8-93a1-26e3e6872999",
+		"name": "Ticket System HTTP",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11359121"
+	},
+	"item": [
+		{
+			"name": "Signup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"user 1\",\n    \"password\": \"12312312\",\n    \"role\": \"user\" // Optional - for convenience\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4200/api/public/authentication/sign-up",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4200",
+					"path": [
+						"api",
+						"public",
+						"authentication",
+						"sign-up"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Signin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"user 1\",\n    \"password\": \"12312312\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4200/api/public/authentication/sign-in",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4200",
+					"path": [
+						"api",
+						"public",
+						"authentication",
+						"sign-in"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Ticket",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhM2E0MTgwOC1jNzdmLTQ0MWEtYTgzYi01M2ZiZjJmNDQ4NWEiLCJ1c2VybmFtZSI6ImQiLCJyb2xlIjoidXNlciIsImlhdCI6MTczMTk2MjkzNCwiZXhwIjoxNzMxOTY2NTM0LCJhdWQiOiJsb2NhbGhvc3Q6NDIwMCIsImlzcyI6ImxvY2FsaG9zdDo0MjAwIn0.pTL2jCU1skju4GPgQ-DJqwtadqOHTIQi0mZ72AiupIU",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"ticket 3\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4200/api/user/ticket/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4200",
+					"path": [
+						"api",
+						"user",
+						"ticket",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Open Tickets",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkY2ViOGYzNS05OGY1LTRkNDYtOTBiNS1jZDE4MDE4MzkzYTMiLCJ1c2VybmFtZSI6IkMiLCJyb2xlIjoiZW1wbG95ZWUiLCJpYXQiOjE3MzE5NjE2MTEsImV4cCI6MTczMTk2NTIxMSwiYXVkIjoibG9jYWxob3N0OjQyMDAiLCJpc3MiOiJsb2NhbGhvc3Q6NDIwMCJ9.3lHlxQHEoVPSxQv1q3vOcDRUzbBob4bw3wbsgjT4OZM",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:4200/api/employee/ticket/open-tickets",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4200",
+					"path": [
+						"api",
+						"employee",
+						"ticket",
+						"open-tickets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Close Ticket",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkY2ViOGYzNS05OGY1LTRkNDYtOTBiNS1jZDE4MDE4MzkzYTMiLCJ1c2VybmFtZSI6IkMiLCJyb2xlIjoiZW1wbG95ZWUiLCJpYXQiOjE3MzE5NjE2MTEsImV4cCI6MTczMTk2NTIxMSwiYXVkIjoibG9jYWxob3N0OjQyMDAiLCJpc3MiOiJsb2NhbGhvc3Q6NDIwMCJ9.3lHlxQHEoVPSxQv1q3vOcDRUzbBob4bw3wbsgjT4OZM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"6e422eb7-0ff1-40eb-898d-e2930f3dd373\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4200/api/employee/ticket/close",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4200",
+					"path": [
+						"api",
+						"employee",
+						"ticket",
+						"close"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Close Ticket Copy",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTBkMjg5Ny0zMTJlLTQ3ZDctYmM2OC1jODIzZGM4Mjk0YTciLCJ1c2VybmFtZSI6IkIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MzE5NjIyNjksImV4cCI6MTczMTk2NTg2OSwiYXVkIjoibG9jYWxob3N0OjQyMDAiLCJpc3MiOiJsb2NhbGhvc3Q6NDIwMCJ9.RHC6khDXBxTEcJvApB3UB5-VOcc4HkTO5gp6lIDdw0M",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:4200/api/admin/ticket/tickets?status=open&userId=e22f0ff0-f257-4e1c-a102-6037593a67c5&searchTitle=ticket",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4200",
+					"path": [
+						"api",
+						"admin",
+						"ticket",
+						"tickets"
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "open"
+						},
+						{
+							"key": "userId",
+							"value": "e22f0ff0-f257-4e1c-a102-6037593a67c5"
+						},
+						{
+							"key": "searchTitle",
+							"value": "ticket"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
