@@ -1,5 +1,6 @@
 export enum RouteTypeEnum {
-    PUBLIC = 'Public',
-    NORMAL = 'Normal',
-    ADMIN = 'Admin',
+    Public = 'public',
+    User = 'user',
+    Employee = 'employee',
+    Admin = 'admin',
 }

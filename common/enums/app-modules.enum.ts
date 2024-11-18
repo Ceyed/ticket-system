@@ -1,5 +1,5 @@
 export enum AppModulesEnum {
-    AUTH = 'AUTH',
-    USER = 'USER',
-    TICKET = 'TICKET',
+    Auth = 'auth',
+    User = 'user',
+    Ticket = 'ticket',
 }

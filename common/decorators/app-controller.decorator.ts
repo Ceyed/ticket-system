@@ -1,19 +1,17 @@
 import { Controller, UseGuards, applyDecorators } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { SwaggerEnumType } from '@nestjs/swagger/dist/types/swagger-enum.type';
 import { ClassConstructor } from 'class-transformer';
-import { AppModulesEnum } from 'common/enums/app-modules.enum';
+import { UserRoleEnum } from 'common/enums/role.enum';
 import { RouteTypeEnum } from 'common/enums/route-type.enum';
 import { AuthenticationGuard } from 'common/guards/authentication.guard';
 import { RoleGuard } from 'common/guards/roles.guard';
+import { Role } from './roles.decorator';
 
 export function AppController(
-    module: AppModulesEnum,
     controllerPath: string,
-    routeType: RouteTypeEnum = RouteTypeEnum.NORMAL,
+    routeType: RouteTypeEnum = RouteTypeEnum.User,
 ) {
-    const [decorators, guards] = _getDecoratorAndGuards(module, controllerPath, routeType);
-    if (routeType !== RouteTypeEnum.PUBLIC) {
+    const [decorators, guards] = _getDecoratorAndGuards(controllerPath, routeType);
+    if (routeType !== RouteTypeEnum.Public) {
         decorators.push(UseGuards(...guards));
     }
 
@@ -21,36 +19,32 @@ export function AppController(
 }
 
 function _getDecoratorAndGuards(
-    module: SwaggerEnumType,
     controllerPath: string,
-    routeType = RouteTypeEnum.NORMAL,
+    routeType = RouteTypeEnum.User,
 ): [Array<ClassDecorator | MethodDecorator | PropertyDecorator>, ClassConstructor<any>[]] {
     const guards = [];
-    const decorators: Array<ClassDecorator | MethodDecorator | PropertyDecorator> = [
-        // SetMetadata(MODULE_CUSTOM_METADATA, module),
-        ApiTags(module as string),
-    ];
+    const decorators: Array<ClassDecorator | MethodDecorator | PropertyDecorator> = [];
 
     const path: string = _getPathPrefix(routeType) + controllerPath;
 
-    if (routeType !== RouteTypeEnum.PUBLIC) {
+    if (routeType !== RouteTypeEnum.Public) {
         guards.push(AuthenticationGuard, RoleGuard);
-        decorators.push(ApiBearerAuth());
+        decorators.push(Role(routeType as unknown as UserRoleEnum));
     }
 
-    decorators.push(
-        // SetMetadata(ROUTE_TYPE_METADATA, routeType),
-        Controller(path),
-    );
+    decorators.push(Controller(path));
     return [decorators, guards];
 }
 
 function _getPathPrefix(routeType: RouteTypeEnum): string {
     switch (routeType) {
-        case RouteTypeEnum.ADMIN:
+        case RouteTypeEnum.Admin:
             return 'admin/';
-        case RouteTypeEnum.NORMAL:
-            return 'normal/';
+        case RouteTypeEnum.User:
+            return 'user/';
+        case RouteTypeEnum.Employee:
+            return 'employee/';
+        case RouteTypeEnum.Public:
         default:
             return 'public/';
     }

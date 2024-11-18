@@ -2,11 +2,10 @@ import { Body, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { AppController } from 'common/decorators/app-controller.decorator';
 import { SignInDto } from 'common/dtos/sign-in.dto';
 import { SignUpDto } from 'common/dtos/sign-up.dto';
-import { AppModulesEnum } from 'common/enums/app-modules.enum';
 import { RouteTypeEnum } from 'common/enums/route-type.enum';
 import { AuthenticationService } from './authentication.service';
 
-@AppController(AppModulesEnum.AUTH, 'authentication', RouteTypeEnum.PUBLIC)
+@AppController('authentication', RouteTypeEnum.Public)
 export class AuthenticationPublicController {
     constructor(private readonly _authenticationService: AuthenticationService) {}
 

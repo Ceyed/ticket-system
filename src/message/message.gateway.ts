@@ -10,6 +10,7 @@ import { TicketEntity } from 'common/database/postgres/entities/ticket/ticket.en
 import { TicketRepository } from 'common/database/postgres/entities/ticket/ticket.repository';
 import { SendMessageInTicketDto } from 'common/dtos/send-message-in-ticket.dto';
 import { UserRoleEnum } from 'common/enums/role.enum';
+import { TicketStatusEnum } from 'common/enums/ticket-status.enum';
 import { Server, Socket } from 'socket.io';
 import { AuthenticationService } from 'src/iam/authentication.service';
 
@@ -49,13 +50,16 @@ export class MessageGateway implements OnGatewayConnection, OnGatewayDisconnect 
             const ticket: TicketEntity = await this._ticketRepository.findById(
                 sendMessageInTicketDto.ticketId,
             );
-
             if (
                 !ticket ||
                 (client.data.user.role === UserRoleEnum.User &&
                     client.data.user.sub !== ticket.userId)
             ) {
                 client.emit('error', 'Invalid ticket id');
+                return;
+            }
+            if (ticket.status === TicketStatusEnum.Closed) {
+                client.emit('error', 'Ticket is closed');
                 return;
             }
 
@@ -70,6 +74,9 @@ export class MessageGateway implements OnGatewayConnection, OnGatewayDisconnect 
                 sendMessageInTicketDto.content,
                 client.data.user.sub,
             );
+            if (ticket.messages.length) {
+                await this._ticketRepository.markAsInprogress(ticket.id);
+            }
         } catch (error) {
             console.error('Error in sending message: ', error);
             client.disconnect();

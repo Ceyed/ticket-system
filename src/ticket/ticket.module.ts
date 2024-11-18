@@ -6,8 +6,9 @@ import { TicketEntity } from 'common/database/postgres/entities/ticket/ticket.en
 import { TicketRepository } from 'common/database/postgres/entities/ticket/ticket.repository';
 import { AccessTokenGuard } from 'common/guards/access-token.guard';
 import { jwtConfig } from 'src/app/config/jwt.config';
-import { TicketNormalController } from './ticket.normal.controller';
+import { TicketEmployeeController } from './ticket.employee.controller';
 import { TicketService } from './ticket.service';
+import { TicketUserController } from './ticket.user.controller';
 
 @Module({
     imports: [
@@ -15,7 +16,7 @@ import { TicketService } from './ticket.service';
         JwtModule.registerAsync(jwtConfig.asProvider()),
         ConfigModule.forFeature(jwtConfig),
     ],
-    controllers: [TicketNormalController],
+    controllers: [TicketUserController, TicketEmployeeController],
     providers: [TicketService, TicketRepository, AccessTokenGuard],
     exports: [TicketRepository],
 })
