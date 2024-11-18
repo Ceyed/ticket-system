@@ -3,7 +3,7 @@ import { ConfigModule, ConfigType } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RedisHelperModule } from 'common/modules/redis-helper/redis-helper.module';
 import { IamModule } from 'src/iam/iam.module';
-import { TicketModule } from 'src/ticket/ticket.module';
+import { MessageModule } from 'src/message/message.module';
 import { DataSourceOptions } from 'typeorm';
 import { appConfig } from './config/app.config';
 import { jwtConfig } from './config/jwt.config';
@@ -41,7 +41,7 @@ import { typeormConfig } from './config/typeorm.config';
         }),
         RedisHelperModule,
         IamModule,
-        TicketModule,
+        MessageModule,
     ],
     controllers: [],
     providers: [],
