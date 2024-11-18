@@ -9,6 +9,7 @@ import { MessageRepository } from 'common/database/postgres/entities/message/mes
 import { TicketEntity } from 'common/database/postgres/entities/ticket/ticket.entity';
 import { TicketRepository } from 'common/database/postgres/entities/ticket/ticket.repository';
 import { SendMessageInTicketDto } from 'common/dtos/send-message-in-ticket.dto';
+import { UserRoleEnum } from 'common/enums/role.enum';
 import { Server, Socket } from 'socket.io';
 import { AuthenticationService } from 'src/iam/authentication.service';
 
@@ -25,7 +26,10 @@ export class MessageGateway implements OnGatewayConnection, OnGatewayDisconnect 
     async handleConnection(client: Socket) {
         try {
             const token = client.handshake.headers.authorization?.split(' ')[1];
-            if (!token) throw new Error('Token not provided');
+            if (!token) {
+                client.emit('error', 'Token not provided');
+                throw new Error('Token not provided');
+            }
             const user = this._authenticationService.verifyToken(token);
             client.data.user = user;
             console.log(`User connected: ${user.username}`);
@@ -45,28 +49,29 @@ export class MessageGateway implements OnGatewayConnection, OnGatewayDisconnect 
             const ticket: TicketEntity = await this._ticketRepository.findById(
                 sendMessageInTicketDto.ticketId,
             );
-            if (!ticket) {
-                console.log('Invalid ticket id');
-                client.send('Invalid ticket id');
+
+            if (
+                !ticket ||
+                (client.data.user.role === UserRoleEnum.User &&
+                    client.data.user.sub !== ticket.userId)
+            ) {
+                client.emit('error', 'Invalid ticket id');
                 return;
             }
 
             const room = `ticket-${sendMessageInTicketDto.ticketId}`;
             client.join(room);
+            this.server.to(room).emit('message', {
+                sender: client.data.user.username,
+                content: sendMessageInTicketDto.content,
+            });
             await this._messageRepository.add(
                 ticket.id,
                 sendMessageInTicketDto.content,
                 client.data.user.sub,
             );
-            this.server.to(room).emit('message', {
-                sender: client.data.user.username,
-                content: sendMessageInTicketDto.content,
-            });
-            console.log(
-                `Message sent by ${client.data.user.username} to room ${room}: ${sendMessageInTicketDto.content}`,
-            );
         } catch (error) {
-            console.log('Error in sending message');
+            console.error('Error in sending message: ', error);
             client.disconnect();
         }
     }

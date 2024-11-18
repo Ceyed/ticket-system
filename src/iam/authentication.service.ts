@@ -5,10 +5,8 @@ import { UserRepository } from 'common/database/postgres/entities/user/user.repo
 import { AccessTokenAndRefreshTokenDto } from 'common/dtos/access-token-and-refresh-token';
 import { SignInDto } from 'common/dtos/sign-in.dto';
 import { SignUpDto } from 'common/dtos/sign-up.dto';
-import { RedisHelperService } from 'common/modules/redis-helper/redis-helper.service';
 import { uuid } from 'common/types/uuid.constant';
 import { randomUUID } from 'crypto';
-import { AppConfig, appConfig } from 'src/app/config/app.config';
 import { jwtConfig, JwtConfig } from 'src/app/config/jwt.config';
 import { RefreshTokenDto } from '../../common/dtos/refresh-token.dto';
 import { ActiveUserDataInterface } from '../../common/interface/active-user-data.interface';
@@ -23,9 +21,7 @@ export class AuthenticationService {
         private readonly _hashingService: HashingService,
         private readonly _jwtService: JwtService,
         @Inject(jwtConfig.KEY) private readonly _jwtConfig: JwtConfig,
-        @Inject(appConfig.KEY) private readonly _appConfig: AppConfig,
         private readonly _refreshTokenIdsStorage: RefreshTokenIdsStorage,
-        private readonly _redisHelperService: RedisHelperService,
     ) {}
 
     async signUp(signUpDto: SignUpDto) {
@@ -33,8 +29,8 @@ export class AuthenticationService {
             const user = new UserEntity();
             user.username = signUpDto.username;
             user.password = await this._hashingService.hash(signUpDto.password);
-
-            await this._userRepository.save(user);
+            if (signUpDto.role) user.role = signUpDto.role;
+            return this._userRepository.save(user);
         } catch (err) {
             const pgUniqueViolationErrorCode = '23505';
             if (err.code === pgUniqueViolationErrorCode) {
@@ -106,6 +102,14 @@ export class AuthenticationService {
         return { accessToken, refreshToken };
     }
 
+    verifyToken(token: string) {
+        try {
+            return this._jwtService.verify(token);
+        } catch {
+            throw new Error('Invalid token');
+        }
+    }
+
     private async _signToken<T>(userId: uuid, expiresIn: number, payload?: T) {
         return await this._jwtService.signAsync(
             {
@@ -119,13 +123,5 @@ export class AuthenticationService {
                 expiresIn,
             },
         );
-    }
-
-    verifyToken(token: string) {
-        try {
-            return this._jwtService.verify(token);
-        } catch {
-            throw new Error('Invalid token');
-        }
     }
 }
