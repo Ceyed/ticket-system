@@ -120,4 +120,12 @@ export class AuthenticationService {
             },
         );
     }
+
+    verifyToken(token: string) {
+        try {
+            return this._jwtService.verify(token);
+        } catch {
+            throw new Error('Invalid token');
+        }
+    }
 }

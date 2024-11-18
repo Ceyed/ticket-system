@@ -39,5 +39,6 @@ import { RefreshTokenIdsStorage } from './refresh-token-ids.storage/refresh-toke
         AuthenticationService,
         UserRepository,
     ],
+    exports: [AuthenticationService],
 })
 export class IamModule {}

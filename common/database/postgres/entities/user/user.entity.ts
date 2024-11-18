@@ -1,7 +1,7 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 import { UserRoleEnum } from '../../../../enums/role.enum';
 import { BaseEntity } from '../base.entity';
+import { TicketEntity } from '../ticket/ticket.entity';
 
 @Entity({
     name: 'user',
@@ -9,14 +9,17 @@ import { BaseEntity } from '../base.entity';
 })
 export class UserEntity extends BaseEntity {
     @Column()
-    @ApiProperty()
+    // @ApiProperty()
     username: string;
 
     @Column()
-    @ApiProperty()
+    // @ApiProperty()
     password: string;
 
     @Column({ enum: UserRoleEnum, default: UserRoleEnum.User })
-    @ApiProperty()
+    // @ApiProperty()
     role: UserRoleEnum;
+
+    @OneToMany(() => TicketEntity, (ticket) => ticket.user)
+    tickets: TicketEntity[];
 }
