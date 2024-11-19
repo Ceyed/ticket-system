@@ -42,6 +42,7 @@ export class TicketService {
     getAllByAdmin(findAllTicketsDto: FindAllTicketsDto): Promise<TicketEntity[]> {
         return this._ticketRepository
             .createQueryBuilder('ticket')
+            .leftJoinAndSelect('ticket.messages', 'message')
             .where(findAllTicketsDto.searchTitle ? 'ticket.title ILIKE :searchTitle' : '1=1', {
                 searchTitle: `%${findAllTicketsDto.searchTitle}%`,
             })
