@@ -37,7 +37,7 @@ All HTTP requests are exported and included in the project root as `Ticket Syste
 
 1. **Host:**
 
-    - `http://localhost:4200`
+    - `http://localhost:3000`
 
 2. **Headers:**
 
@@ -61,3 +61,12 @@ All HTTP requests are exported and included in the project root as `Ticket Syste
 5. **Event name:**
 
     - `sendMessage`
+
+### Using Amazon ECR Public Gallery
+
+I encountered a `429 Too Many Requests` error while pulling the `node:22` image from Docker Hub. Therefore, I switched to using the `gallery.ecr.aws` registry instead.
+
+### Note
+
+-   Be sure to create a `.env` file.  
+    (You can copy `env.sample` to `.env`.)

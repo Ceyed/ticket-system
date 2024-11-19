@@ -1,4 +1,4 @@
-FROM node:22
+FROM public.ecr.aws/lambda/nodejs:20.2024.11.14.18-x86_64
 WORKDIR /app
 RUN npm install -g pnpm
 COPY package*.json pnpm-lock.yaml ./
@@ -6,5 +6,5 @@ RUN pnpm install
 COPY . .
 RUN pnpm build
 EXPOSE 3000
-# CMD ["sh", "./entrypoint.sh"]
-CMD pnpm run migration:run && pnpm start:prod
+ENTRYPOINT ["sh", "-c"]
+CMD ["pnpm run migration:run && pnpm start"]

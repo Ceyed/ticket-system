@@ -21,12 +21,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:4200/api/public/authentication/sign-up",
+					"raw": "http://localhost:3000/api/public/authentication/sign-up",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "4200",
+					"port": "3000",
 					"path": [
 						"api",
 						"public",
@@ -52,12 +52,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:4200/api/public/authentication/sign-in",
+					"raw": "http://localhost:3000/api/public/authentication/sign-in",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "4200",
+					"port": "3000",
 					"path": [
 						"api",
 						"public",
@@ -89,12 +89,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:4200/api/user/ticket/create",
+					"raw": "http://localhost:3000/api/user/ticket/create",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "4200",
+					"port": "3000",
 					"path": [
 						"api",
 						"user",
@@ -117,12 +117,12 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:4200/api/employee/ticket/open-tickets",
+					"raw": "http://localhost:3000/api/employee/ticket/open-tickets",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "4200",
+					"port": "3000",
 					"path": [
 						"api",
 						"employee",
@@ -154,12 +154,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:4200/api/employee/ticket/close",
+					"raw": "http://localhost:3000/api/employee/ticket/close",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "4200",
+					"port": "3000",
 					"path": [
 						"api",
 						"employee",
@@ -189,12 +189,12 @@
 					"formdata": []
 				},
 				"url": {
-					"raw": "http://localhost:4200/api/admin/ticket/tickets?status=open&userId=e22f0ff0-f257-4e1c-a102-6037593a67c5&searchTitle=ticket",
+					"raw": "http://localhost:3000/api/admin/ticket/tickets?status=open&userId=e22f0ff0-f257-4e1c-a102-6037593a67c5&searchTitle=ticket",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "4200",
+					"port": "3000",
 					"path": [
 						"api",
 						"admin",
