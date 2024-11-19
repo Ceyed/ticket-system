@@ -33,7 +33,7 @@
 
 ## Creating a Socket.io Request in Postman
 
-All HTTP requests are exported and included in the project root as `postman-export`. However, since socket collections cannot be exported, follow these steps to create a socket request manually:
+All HTTP requests are exported and included in the project root as `Ticket System HTTP.postman_collection.json`. However, since socket collections cannot be exported, follow these steps to create a socket request manually:
 
 1. **Host:**
 

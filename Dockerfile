@@ -6,4 +6,5 @@ RUN pnpm install
 COPY . .
 RUN pnpm build
 EXPOSE 3000
-CMD ["sh", "./entrypoint.sh"]
+# CMD ["sh", "./entrypoint.sh"]
+CMD pnpm run migration:run && pnpm start:prod
